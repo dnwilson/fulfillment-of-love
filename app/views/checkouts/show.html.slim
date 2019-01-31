@@ -1,0 +1,104 @@
+section#checkout.bg-red
+  .container
+    .row
+      .col-sm-8.col-sm-offset-2
+        .content
+          - if @result
+            .icon
+              i.fa.fa-3x.fa-check-circle
+            h1= @result[:header]
+            section
+              p= @result[:message]
+          - else
+            section
+              p Test another transaction or see the Braintree API response.
+          section
+            a.button.primary.back href="/checkouts/new"
+              span Test Another Transaction
+aside.drawer.dark
+  header
+    .content.compact
+      a.braintree href="https://developers.braintreepayments.com" target="_blank"  Braintree
+      h3 API Response
+  article.content.compact
+    section
+      h5 Transaction
+      table cellpadding="0" cellspacing="0"
+        tbody
+          tr
+            th id
+            td= @transaction.id
+          tr
+            th type
+            td= @transaction.type
+          tr
+            th amount
+            td= @transaction.amount
+          tr
+            th status
+            td= @transaction.status
+          tr
+            th created_at
+            td= @transaction.created_at
+          tr
+            th updated_at
+            td= @transaction.updated_at
+    section
+      h5 Payment
+      table cellpadding="0" cellspacing="0"
+        tbody
+          tr
+            th token
+            td= @transaction.credit_card_details.token
+          tr
+            th bin
+            td= @transaction.credit_card_details.bin
+          tr
+            th last_4
+            td= @transaction.credit_card_details.last_4
+          tr
+            th card_type
+            td= @transaction.credit_card_details.card_type
+          tr
+            th expiration_date
+            td= @transaction.credit_card_details.expiration_date
+          tr
+            th cardholder_name
+            td= @transaction.credit_card_details.cardholder_name
+          tr
+            th customer_location
+            td= @transaction.credit_card_details.customer_location
+    - if @transaction.customer_details.id
+      section
+        h5 Customer
+        table cellpadding="0" cellspacing="0"
+          tbody
+            tr
+              th id
+              td= @transaction.customer_details.id
+            tr
+              th first_name
+              td= @transaction.customer_details.first_name
+            tr
+              th last_name
+              td= @transaction.customer_details.last_name
+            tr
+              th email
+              td= @transaction.customer_details.email
+            tr
+              th company
+              td= @transaction.customer_details.company
+            tr
+              th website
+              td= @transaction.customer_details.website
+            tr
+              th phone
+              td= @transaction.customer_details.phone
+            tr
+              th fax
+              td= @transaction.customer_details.fax
+    section
+      p.center.small Integrate with the Braintree SDK for a secure and seamless checkout
+    section
+      a.button.secondary.full href="https://developers.braintreepayments.com/guides/drop-in" target="_blank"
+        span See the Docs

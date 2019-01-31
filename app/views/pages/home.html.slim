@@ -1,0 +1,61 @@
+= render "carousel"
+section#one.bg-primary
+  .container
+    .row
+      .col-lg-6.col-lg-offset-3.col-md-8.col-md-offset-2.text-center
+        h2.margin-top-0.text-primary Fulfillment of Love
+        br
+        p.text-faded
+          | This book and 9 track CD is about the declaration of love, which will cover all sensitive questions and give answers to issues like commitment, romance, insecurity, finance, infidelity, health, hygiene and online dating. Because, only the one you love the most can be the one to hurt you the most. It seeks to will inform and educate the reader on the essential factors to consider in to secure a gratifying relationship.
+        a.btn.btn-default.btn-xl.page-scroll href="#three"  Explore
+section#two
+  .container
+    .row
+      .col-lg-12.text-center
+        h2.margin-top-0.text-primary.author-hd About the author
+        hr.primary/
+      .col-lg-4.col-md-4.text-center
+        .feature
+          = image_tag("michael_langdon.png", class: "author-img wow fadeInUp", "data-wow-delay": ".2s")
+      .col-lg-8.col-md-8
+        .feature
+          i.icon-lg.ion-android-laptop.wow.fadeIn data-wow-delay=".3s"
+          h3 Michael Langdon
+          p.text-muted
+            | Fulfillment of love is a declaration of love which will ensure the union of love between you and your significant other. True love is a deep and inner feeling which was ordained by God. Scholars, professional artists in all fields of art, sculptors, painters, composers, musicians, singers etc., for hundreds of years and still trying to perfect the word love. As a writer I am fascinated by the word love, there is so many breakups and less making up. But every second there is someone falling in love. Love will be to the existent of time. This book and 9 track CD combination will be the perfect gift for weddings, anniversaries, engagements, beginning of a relationship, or reconciling a relationship. It's a master piece.
+section#three.bg-primary
+  .container
+    .row
+      .col-lg-6.col-lg-offset-3.col-md-8.col-md-offset-2.text-center
+        h2.text-center.text-primary Package
+        p.text-faded
+          | The book is available for digital download of both the paperback and audio book. There is also a limited edition package which includes a physical copy of the paperback, along with the audio book presented in a special edition DVD case complete with the audio CD. Below is a preview from the audio book.
+        = audio_tag("preview.ogg", "preview.mp3")
+section#four.bg-dark
+  h2.text-center.text-primary Store
+  ul.list-inline.shop-items.text-center
+    li.list-inline-item.shop-item
+      = image_tag("digital.jpg", class: "img-responsive")
+      a.btn.btn-default.buy-button href="https://www.amazon.com/dp/B07MJY2W8M"  E-book ($2.99)
+    li.list-inline-item.shop-item
+      = image_tag("hardcopy.jpg", class: "img-responsive")
+      = link_to "Special Edition Box Set ($9.99)", new_checkout_path, class: "btn btn-default buy-button"
+footer#footer
+  .container-fluid
+    .row
+      .col-lg-6.col-lg-offset-3.col-md-8.col-md-offset-2.text-center
+        ul.list-unstyled.social-networks
+          li
+            a href="https://instagram.com/fulfillmentoflove" title="instagram"
+              i.fa.fa-instagram
+          li
+            a href="https://twitter.com/fulfillmentOfL" title="twitter"
+              i.fa.fa-twitter
+          li
+            a href="mailto:info@fulfillmentoflove.com" title="email"
+              i.fa.fa-envelope
+        p.mar-top-20 ©2016 Fulfillment of Love
+#modal.modal.fade.bg-red aria-hidden="true" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-body

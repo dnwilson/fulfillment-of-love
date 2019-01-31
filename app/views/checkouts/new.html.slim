@@ -1,0 +1,200 @@
+#modal.modal.fade.bg-red aria-hidden="true" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-body
+section#checkout.bg-red
+  .container
+    .row
+      .col-sm-8.col-sm-offset-2
+        h2 Checkout
+        = form_tag "/checkouts", method: :post, id: "payment-form" do
+          table.table
+            thead.thead-dark
+              tr
+                th.text-center QTY
+                th Description
+                th.text-right Price
+                th.text-right Total
+            tbody
+              tr
+                td.text-center
+                  select#qty.form-control name="qty" required="required"
+                    option value="1" 1
+                    option value="2" 2
+                    option value="3" 3
+                    option value="4" 4
+                    option value="5" 5
+                    option value="6" 6
+                    option value="7" 7
+                    option value="8" 8
+                    option value="9" 9
+                    option value="10" 10
+                td#description
+                  span Special Edition Box Set
+                td
+                  input#price.form-control.text-right name="price" type="number" value="#{ @price }" readonly="readonly"
+                td
+                  input#total.form-control.text-right name="total" type="number" value="#{ @total }" readonly="readonly"
+          input type="hidden" id="nonce" name="payment_method_nonce"
+
+          h3 Payment Information
+          .bt-drop-in-wrapper
+            #bt-dropin
+
+          h3 Shipping Information
+          .row
+            .col-sm-12
+              .form-group
+                input#email.form-control type="email" aria-describedby="email" placeholder="michael@fulfillmentoflove.com" required="required"
+          .row
+            .col-sm-6
+              .form-group
+                input#firstName.form-control type="string" aria-describedby="firstName" placeholder="First Name" required="required"
+            .col-sm-6
+              .form-group
+                input#lastName.form-control type="string" aria-describedby="lastName" placeholder="Last Name" required="required"
+          .row
+            .col-sm-12
+              .form-group
+                input#address1.form-control name="address1" placeholder=("Street address, P.O. box, company name, c/o") type="string" required="required"
+          .row
+            .col-sm-12
+              .form-group
+                input#address2.form-control name="address2" placeholder=("Apartment, suite , unit, building, floor, etc.") type="string"
+          .row
+            .col-sm-4
+              .form-group
+                input#city.form-control type="string" aria-describedby="city" placeholder="City" required="required"
+            .col-sm-4
+              .form-group
+                select#state.form-control name="state" required="required"
+                  option selected="selected" value=""  Select a State
+                  option value="AL"  Alabama
+                  option value="AK"  Alaska
+                  option value="AZ"  Arizona
+                  option value="AR"  Arkansas
+                  option value="CA"  California
+                  option value="CO"  Colorado
+                  option value="CT"  Connecticut
+                  option value="DE"  Delaware
+                  option value="DC"  District Of Columbia
+                  option value="FL"  Florida
+                  option value="GA"  Georgia
+                  option value="HI"  Hawaii
+                  option value="ID"  Idaho
+                  option value="IL"  Illinois
+                  option value="IN"  Indiana
+                  option value="IA"  Iowa
+                  option value="KS"  Kansas
+                  option value="KY"  Kentucky
+                  option value="LA"  Louisiana
+                  option value="ME"  Maine
+                  option value="MD"  Maryland
+                  option value="MA"  Massachusetts
+                  option value="MI"  Michigan
+                  option value="MN"  Minnesota
+                  option value="MS"  Mississippi
+                  option value="MO"  Missouri
+                  option value="MT"  Montana
+                  option value="NE"  Nebraska
+                  option value="NV"  Nevada
+                  option value="NH"  New Hampshire
+                  option value="NJ"  New Jersey
+                  option value="NM"  New Mexico
+                  option value="NY"  New York
+                  option value="NC"  North Carolina
+                  option value="ND"  North Dakota
+                  option value="OH"  Ohio
+                  option value="OK"  Oklahoma
+                  option value="OR"  Oregon
+                  option value="PA"  Pennsylvania
+                  option value="RI"  Rhode Island
+                  option value="SC"  South Carolina
+                  option value="SD"  South Dakota
+                  option value="TN"  Tennessee
+                  option value="TX"  Texas
+                  option value="UT"  Utah
+                  option value="VT"  Vermont
+                  option value="VA"  Virginia
+                  option value="WA"  Washington
+                  option value="WV"  West Virginia
+                  option value="WI"  Wisconsin
+                  option value="WY"  Wyoming
+            .col-sm-4
+              .form-group
+                input#zipcode.form-control type="string" aria-describedby="zipcode" placeholder="Zip Code" required="required"
+          button#submitBtn.btn.btn-default.pull-right type="submit" Checkout
+
+script src="https://js.braintreegateway.com/web/dropin/1.15.0/js/dropin.min.js"
+javascript:
+  var form         = document.getElementById('payment-form');
+  var firstName    = document.getElementById('firstName');
+  var lastName     = document.getElementById('lastName');
+  var addressLine1 = document.getElementById('address1');
+  var addressLine2 = document.getElementById('address2');
+  var city         = document.getElementById('city');
+  var state        = document.getElementById('state');
+  var zipcode      = document.getElementById('zipcode');
+  var submitBtn    = document.getElementById('submitBtn');
+  var client_token = "#{ @client_token }"
+
+  var fields = [
+    firstName,
+    lastName,
+    addressLine1,
+    addressLine2,
+    city,
+    state,
+    zipcode,
+  ]
+
+  var valid = false
+
+  var qty   = document.getElementById('qty');
+  var price = document.getElementById('price');
+  var total = document.getElementById('total');
+
+  $("#qty").on('change', function(event){
+    console.log("THis fired");
+    total.value = event.target.value * price.value
+  });
+
+  function validateForm() {
+    for (var i = 0; i < fields.length; i++) {
+      var field = fields[i]
+      if (field.checkValidity()) {
+        field.parentNode.classList.add("has-success")
+      } else {
+        field.parentNode.classList.add("has-error")
+      }
+    }
+
+    if (!valid){
+      submitBtn.disabled = true
+    }
+  }
+
+  braintree.dropin.create({
+    authorization: client_token,
+    container: '#bt-dropin',
+    paypal: {
+      flow: 'checkout'
+    }
+  }, function (createErr, instance) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      validateForm();
+
+      instance.requestPaymentMethod(function (err, payload) {
+        if (err) {
+          console.log('Error', err);
+          return;
+        }
+
+        // Add the nonce to the form and submit
+        document.querySelector('#nonce').value = payload.nonce;
+        form.submit();
+      });
+    });
+  });

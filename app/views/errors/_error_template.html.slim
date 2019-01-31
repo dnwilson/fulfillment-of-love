@@ -1,0 +1,9 @@
+#error.yellow
+  .container
+    .row
+      .col-12.content
+        h1.header= header
+        h4.text-uppercase= message
+        p.mt-3.font-secondary= content.html_safe
+        .mt-3
+          = link_to "Return Home", root_path, class: "btn btn-primary"
