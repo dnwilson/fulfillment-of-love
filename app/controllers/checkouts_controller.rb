@@ -68,13 +68,11 @@ class CheckoutsController < ApplicationController
   end
 
   def gateway
-    env = ENV["BT_ENVIRONMENT"]
-
     @gateway ||= Braintree::Gateway.new(
-      :environment => env && env.to_sym,
-      :merchant_id => ENV["BT_MERCHANT_ID"],
-      :public_key => ENV["BT_PUBLIC_KEY"],
-      :private_key => ENV["BT_PRIVATE_KEY"],
+      environment: Braintree::Configuration.environment,
+      merchant_id: Braintree::Configuration.merchant_id,
+      public_key: Braintree::Configuration.public_key,
+      private_key: Braintree::Configuration.private_key
     )
   end
 
