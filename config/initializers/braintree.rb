@@ -1,4 +1,7 @@
-Braintree::Configuration.environment = ENV['BT_ENVIRONMENT'].to_sym
-Braintree::Configuration.merchant_id = ENV['BT_MERCHANT_ID']
-Braintree::Configuration.public_key  = ENV['BT_PUBLIC_KEY']
-Braintree::Configuration.private_key = ENV['BT_PRIVATE_KEY']
+
+environment = Rails.env.production? ? :production : :sandbox
+
+Braintree::Configuration.environment = environment
+Braintree::Configuration.merchant_id = Rails.application.credentials.dig :braintree, environment, :merchant_id
+Braintree::Configuration.public_key  = Rails.application.credentials.dig :braintree, environment, :public_key
+Braintree::Configuration.private_key = Rails.application.credentials.dig :braintree, environment, :private_key
