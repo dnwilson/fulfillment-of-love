@@ -1,0 +1,29 @@
+<!-- Email Footer -->
+<tr>
+  <td class="<%= "bg-red" if status && @opts[:error] %> <%= "bg-green" if status && @opts[:description]%>">
+    <table class="email-footer <%= "bg-red" if status && @opts[:error] %> <%= "bg-green" if status && @opts[:description]%>"
+      align="center" width="570" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center" style="padding-bottom:0;padding-right:0;padding-left:0;padding-top:20px;" valign="middle">
+          <!--[if gte mso 9]>&nbsp;&nbsp;&nbsp;<![endif]-->
+          <span class="sg-image">
+            <a href="https://twitter.com/<%= twitter %>" target="_blank"><img alt="Twitter" height="18" src="https://d3q93z57vqho8b.cloudfront.net/internationalweekend/twitter-white.png" style="border-width: 0px; margin-right: 16px; margin-left: 16px; width: 23px; height: 18px;" width="23"></a>
+          </span>
+          <!--[if gte mso 9]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
+          <span class="sg-image">
+            <a href="https://www.instagram.com/<%= ig %>/" target="_blank"><img alt="Instagram" height="18" src="https://d3q93z57vqho8b.cloudfront.net/internationalweekend/ig-white.png" style="border-width: 0px; margin-right: 16px; margin-left: 16px; width: 18px; height: 18px;" width="18"></a>
+          </span>
+          <!--[if gte mso 9]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
+          <span class="sg-image">
+            <a href="https://api.whatsapp.com/send?phone=<%= whatsapp %>" target="_blank"><img alt="WhatsApp" height="18" src="https://d3q93z57vqho8b.cloudfront.net/internationalweekend/whatsapp-white.png" style="border-width: 0px; margin-right: 16px; margin-left: 16px; width: 18px; height: 18px;" width="18"></a>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td class="content-cell" align="center">
+          <p class="sub align-center">&copy; <%= Date.today.year %> Fulfillment of Love. All rights reserved.</p>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

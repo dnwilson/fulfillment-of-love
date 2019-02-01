@@ -645,3 +645,12 @@ fieldset[disabled] .form-control {
 .w-100 {
    width: 100%;
 }
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+  color: #cc0000;
+  background-color: transparent;
+}
+
+.dropdown-menu li a:hover {
+  color: #cc0000;
+}

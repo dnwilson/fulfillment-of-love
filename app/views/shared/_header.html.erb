@@ -1,0 +1,7 @@
+<!-- Email Header -->
+<tr>
+  <td class="email-masthead <%= "bg-red" if status && @opts[:error] %> <%= "bg-green" if status && @opts[:description] %>">
+    <h1 class="align-center color-white <%= @opts[:error] ? "red" : "green" %>"><%= @opts[:error_details] ? @opts[:error_details][:summary].titleize : @opts[:status].titleize %></h1>
+    <p class="align-center color-white italic">ID: <%= @opts[:transaction_id].upcase %></p>
+  </td>
+</tr>

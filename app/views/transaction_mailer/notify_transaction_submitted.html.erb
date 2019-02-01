@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <%= render partial: "shared/head", locals: {title: "Receipt for recent purchase from #{@opts[:url]}"} %>
+  <body>
+    <span class="preheader">This is a receipt for your recent purchase on <%= Time.current %></span>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0">
+      <%= render partial: "shared/header", locals: {status: false} %>
+      <!-- Email Body -->
+      <tr>
+        <td class="email-body" width="100%" cellpadding="0" cellspacing="0">
+          <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0">
+            <!-- Body content -->
+            <tr>
+              <td class="content-cell">
+                <h1>Hi<%= @checkout.first_name ? " #{@checkout.first_name}" : "" %>,</h1>
+                <p>Thank you for purhasing <%= @opts[:title] %>. Your payment has been submitted for processing, once processing is completed you will receive a followup email with your purchase receipt.</p>
+                <p>Your confirmation code is <strong><%= @opts[:transaction_id] %></strong>. Need to check <a href="<%= @opts[:url] %>/checkouts/<%= @opts[:transaction_id] %>" class="no_underline">your order status</a>?</p>
+                <p class="align-center"><strong>Total: <%= number_to_currency(@opts[:amount]) %></strong></p>
+                <table class="body-sub">
+                  <tr>
+                    <td>
+                      <p class="italic">If you have any questions about this message, simply reply to this email or call <a href="tel:+13475257771" class="no_underline">1 (347) 525-7771</a>.
+                      <br><br>Thanks,
+                      <br><br> Michael Langdon</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <%= render partial: "shared/footer", locals: {status: false, ig: @opts[:ig], twitter: @opts[:twitter], whatsapp: @opts[:whatsapp]}%>
+    </table>
+  </body>
+</html>
