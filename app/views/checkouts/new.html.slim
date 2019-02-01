@@ -1,8 +1,4 @@
-#modal.modal.fade.bg-red aria-hidden="true" role="dialog" tabindex="-1"
-  .modal-dialog
-    .modal-content
-      .modal-body
-section#checkout.bg-red
+section#checkout
   .container
     .row
       .col-sm-8.col-sm-offset-2
@@ -43,16 +39,16 @@ section#checkout.bg-red
 
           h3 Shipping Information
           .row
+            .col-sm-6
+              .form-group
+                input#firstName.form-control name="first_name" type="string" aria-describedby="firstName" placeholder="First Name" required="required"
+            .col-sm-6
+              .form-group
+                input#lastName.form-control name="last_name" type="string" aria-describedby="lastName" placeholder="Last Name" required="required"
+          .row
             .col-sm-12
               .form-group
-                input#email.form-control type="email" aria-describedby="email" placeholder="michael@fulfillmentoflove.com" required="required"
-          .row
-            .col-sm-6
-              .form-group
-                input#firstName.form-control type="string" aria-describedby="firstName" placeholder="First Name" required="required"
-            .col-sm-6
-              .form-group
-                input#lastName.form-control type="string" aria-describedby="lastName" placeholder="Last Name" required="required"
+                input#email.form-control name="email" type="email" aria-describedby="email" placeholder="michael@fulfillmentoflove.com" required="required"
           .row
             .col-sm-12
               .form-group
@@ -64,7 +60,7 @@ section#checkout.bg-red
           .row
             .col-sm-4
               .form-group
-                input#city.form-control type="string" aria-describedby="city" placeholder="City" required="required"
+                input#city.form-control type="string" name="city" aria-describedby="city" placeholder="City" required="required"
             .col-sm-4
               .form-group
                 select#state.form-control name="state" required="required"
@@ -122,79 +118,82 @@ section#checkout.bg-red
                   option value="WY"  Wyoming
             .col-sm-4
               .form-group
-                input#zipcode.form-control type="string" aria-describedby="zipcode" placeholder="Zip Code" required="required"
+                input#zipcode.form-control type="string" name="zipcode" aria-describedby="zipcode" placeholder="Zip Code" required="required"
           button#submitBtn.btn.btn-default.pull-right type="submit" Checkout
 
-script src="https://js.braintreegateway.com/web/dropin/1.15.0/js/dropin.min.js"
 javascript:
-  var form         = document.getElementById('payment-form');
-  var firstName    = document.getElementById('firstName');
-  var lastName     = document.getElementById('lastName');
-  var addressLine1 = document.getElementById('address1');
-  var addressLine2 = document.getElementById('address2');
-  var city         = document.getElementById('city');
-  var state        = document.getElementById('state');
-  var zipcode      = document.getElementById('zipcode');
-  var submitBtn    = document.getElementById('submitBtn');
-  var client_token = "#{ @client_token }"
+  $(document).on('turbolinks:load', function(){
+    var form         = document.getElementById('payment-form');
+    var firstName    = document.getElementById('firstName');
+    var lastName     = document.getElementById('lastName');
+    var addressLine1 = document.getElementById('address1');
+    var addressLine2 = document.getElementById('address2');
+    var city         = document.getElementById('city');
+    var state        = document.getElementById('state');
+    var zipcode      = document.getElementById('zipcode');
+    var submitBtn    = document.getElementById('submitBtn');
+    var client_token = "#{ @client_token }"
 
-  var fields = [
-    firstName,
-    lastName,
-    addressLine1,
-    addressLine2,
-    city,
-    state,
-    zipcode,
-  ]
+    var fields = [
+      firstName,
+      lastName,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      zipcode,
+    ]
 
-  var valid = false
+    var valid = false
 
-  var qty   = document.getElementById('qty');
-  var price = document.getElementById('price');
-  var total = document.getElementById('total');
+    var qty   = document.getElementById('qty');
+    var price = document.getElementById('price');
+    var total = document.getElementById('total');
 
-  $("#qty").on('change', function(event){
-    console.log("THis fired");
-    total.value = event.target.value * price.value
-  });
+    $("#qty").on('change', function(event){
+      console.log("THis fired");
+      total.value = event.target.value * price.value
+    });
 
-  function validateForm() {
-    for (var i = 0; i < fields.length; i++) {
-      var field = fields[i]
-      if (field.checkValidity()) {
-        field.parentNode.classList.add("has-success")
-      } else {
-        field.parentNode.classList.add("has-error")
+    function validateForm() {
+      for (var i = 0; i < fields.length; i++) {
+        var field = fields[i]
+        if (field.checkValidity()) {
+          field.parentNode.classList.add("has-success")
+        } else {
+          field.parentNode.classList.add("has-error")
+        }
+      }
+
+      if (!valid){
+        submitBtn.disabled = true
       }
     }
 
-    if (!valid){
-      submitBtn.disabled = true
-    }
-  }
+    braintree.dropin.create({
+      authorization: client_token,
+      container: '#bt-dropin',
+      paypal: {
+        flow: 'checkout',
+        amount: total.value,
+        currency: 'USD'
+      }
+    }, function (createErr, instance) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-  braintree.dropin.create({
-    authorization: client_token,
-    container: '#bt-dropin',
-    paypal: {
-      flow: 'checkout'
-    }
-  }, function (createErr, instance) {
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
+        validateForm();
 
-      validateForm();
+        instance.requestPaymentMethod(function (err, payload) {
+          if (err) {
+            console.log('Error', err);
+            return;
+          }
 
-      instance.requestPaymentMethod(function (err, payload) {
-        if (err) {
-          console.log('Error', err);
-          return;
-        }
-
-        // Add the nonce to the form and submit
-        document.querySelector('#nonce').value = payload.nonce;
-        form.submit();
+          // Add the nonce to the form and submit
+          document.querySelector('#nonce').value = payload.nonce;
+          form.submit();
+        });
       });
     });
   });

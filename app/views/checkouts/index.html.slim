@@ -1,0 +1,28 @@
+.container
+  .row
+    .col-sm-12
+      section#transactions
+        table.table
+          thead.thead-dark
+            tr
+              th ID
+              th Date
+              th Status
+              th Name
+              th Email
+              th Address
+              th City
+              th State
+              th Zipcode
+          tbody
+            - @checkouts.each do |checkout|
+              tr
+                td= checkout.braintree_id
+                td= checkout.created_at.strftime("%m/%d/%Y %I:%M %p")
+                td= checkout.status
+                td= checkout.full_name
+                td= checkout.email
+                td= checkout.full_address
+                td= checkout.city
+                td= checkout.state
+                td= checkout.zipcode

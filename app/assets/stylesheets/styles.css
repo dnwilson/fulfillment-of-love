@@ -236,7 +236,7 @@ header {
     color: #fff;
     width: 100%;
     background-color: #c9c9c9;
-    background-image: url('../img/main_bg.png');
+    background-image: url('main_bg.png');
     background-position: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -596,10 +596,6 @@ ul.social-networks li{
   }
 }
 
-/* input#qty {
-  text-align: center;
-  width: 50px;
-} */
 
 .form-control[disabled],
 .form-control[readonly],
@@ -623,4 +619,24 @@ fieldset[disabled] .form-control {
   text-overflow: ellipsis;
   display: inline-block;
   max-width: 100%;
+}
+
+.pr-2{
+  padding-right: 0.5rem !important;
+}
+
+.bg-red {
+  background-color: #cc0000;
+}
+
+#confirmation {
+  margin-top: 6rem;
+}
+
+.fa-check-circle {
+  color: #5CD493;
+}
+
+.fa-times-circle {
+  color: #cc0000;
 }

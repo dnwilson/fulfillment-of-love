@@ -15,3 +15,13 @@
 //= require jquery
 //= require bootstrap.min
 //= require_tree .
+
+
+$(document).on('turbolinks:load', function() {
+  var clickOnPopupLink = function(){
+    $('body').on('click', '.static-popup-link', function(){
+      $('#modal').modal('show');
+    });
+  }
+  clickOnPopupLink();
+});

@@ -17,7 +17,12 @@ class CheckoutsController < ApplicationController
 
   def show
     @transaction = gateway.transaction.find(params[:id])
+    @checkout = Checkout.find_by_braintree_id(params[:id])
     @result = _create_result_hash(@transaction)
+  end
+
+  def index
+    @checkouts = Checkout.all
   end
 
   def create
@@ -33,8 +38,7 @@ class CheckoutsController < ApplicationController
     )
 
     if result.success? || result.transaction
-      binding.pry
-      @checkout = Checkout.log_transaction!(result.transaction.id, checkout_params)
+      @checkout = Checkout.log_transaction!(result.transaction, checkout_params)
       redirect_to checkout_path(result.transaction.id)
     else
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
@@ -48,15 +52,17 @@ class CheckoutsController < ApplicationController
 
     if TRANSACTION_SUCCESS_STATUSES.include? status
       result_hash = {
-        :header => "Sweet Success!",
-        :icon => "success",
-        :message => "Your test transaction has been successfully processed. See the Braintree API response and try again."
+        header: "Sweet Success!",
+        icon: "check",
+        success: true,
+        message: "Thank you for purchasing Fulfillment of Love. Please check your email (#{@checkout.email}) for payment confirmation as well as shipping updates."
       }
     else
       result_hash = {
-        :header => "Transaction Failed",
-        :icon => "fail",
-        :message => "Your test transaction has a status of #{status}. See the Braintree API response and try again."
+        header: "Processing Error",
+        icon: "times",
+        success: false,
+        message: "We were unable to process your transaction. Please return to the checkout page and try again."
       }
     end
   end
@@ -75,6 +81,6 @@ class CheckoutsController < ApplicationController
   private
 
   def checkout_params
-    request.parameters.slice(:qty, :price, :total, :email, :first_name, :last_name, :address1, :address2, :city, :state, :zipcode)
+    request.parameters.slice(:email, :first_name, :last_name, :address1, :address2, :city, :state, :zipcode)
   end
 end

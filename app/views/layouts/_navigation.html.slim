@@ -1,23 +1,46 @@
 nav#topNav.navbar.navbar-default.navbar-fixed-top
   .container-fluid
-    .navbar-header
-      button.navbar-toggle.collapsed data-target="#bs-navbar" data-toggle="collapse" type="button"
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand.page-scroll href="#first"
-        i.fa.fa-heart
-    #bs-navbar.navbar-collapse.collapse
-      ul.nav.navbar-nav
-        li
-          a.page-scroll href="#one"  Info
-        li
-          a.page-scroll href="#two"  Bio
-        li
-          a.page-scroll href="#three"  Package
-        li
-          a.page-scroll href="#four"  Store
-      ul.nav.navbar-nav.navbar-right
-        li
-          a.page-scroll data-toggle="modal" href="#aboutModal" title=("A free Bootstrap video landing theme")  Buy
+    - if current_page?(root_path)
+      .navbar-header
+        button.navbar-toggle.collapsed data-target="#bs-navbar" data-toggle="collapse" type="button"
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand.page-scroll href="#first"
+          i.fa.fa-heart
+      #bs-navbar.navbar-collapse.collapse
+        ul.nav.navbar-nav
+          li
+            a.page-scroll href="#one"  Info
+          li
+            a.page-scroll href="#two"  Bio
+          li
+            a.page-scroll href="#three"  Package
+          li
+            a.page-scroll href="#four"  Store
+        ul.nav.navbar-nav.navbar-right
+          li
+            = link_to "Buy", new_checkout_path, class: "page-scroll"
+    - else
+      .navbar-header
+        button.navbar-toggle.collapsed data-target="#bs-navbar" data-toggle="collapse" type="button"
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        = link_to root_path + "#first", class: "navbar-brand page-scroll" do
+          i.fa.fa-heart
+      #bs-navbar.navbar-collapse.collapse
+        ul.nav.navbar-nav
+          li
+            = link_to "Info", root_path + "#one", class: "page-scroll"
+          li
+            = link_to "Bio", root_path + "#two", class: "page-scroll"
+          li
+            = link_to "Package", root_path + "#three", class: "page-scroll"
+          li
+            = link_to "Store", root_path + "#four", class: "page-scroll"
+        ul.nav.navbar-nav.navbar-right
+          li
+            = link_to "Buy", new_checkout_path, class: "page-scroll"
